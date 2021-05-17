@@ -37,29 +37,34 @@ public class ClientController implements Initializable {
     @SneakyThrows
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Socket socket = new Socket("localhost", 8189);
-        oeos = new ObjectEncoderOutputStream(socket.getOutputStream());
-        odis = new ObjectDecoderInputStream(socket.getInputStream());
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
-        Thread serviceThread = new Thread(() -> {
-            try {
-                while (true) {
+        try {
+            Socket socket = new Socket("localhost", 8189);
+            oeos = new ObjectEncoderOutputStream(socket.getOutputStream());
+            odis = new ObjectDecoderInputStream(socket.getInputStream());
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
+            Thread serviceThread = new Thread(() -> {
+                try {
+                    while (true) {
 
-                    Message message = (Message) odis.readObject();
-                    String msg = String.format("[%s] %s: %s",
-                            message.getCreated().format(dateFormat),
-                            message.getAuthor(),
-                            message.getText());
-                    Platform.runLater(() ->
+                        Message message = (Message) odis.readObject();
+                        String msg = String.format("[%s] %s: %s",
+                                message.getCreated().format(dateFormat),
+                                message.getAuthor(),
+                                message.getText());
+                        Platform.runLater(() ->
                                 listView.getItems().add(msg));
+                    }
+                } catch (Exception e) {
+
                 }
-            } catch (Exception e) {
 
-            }
+            });
+            serviceThread.setDaemon(true);
+            serviceThread.start();
+        } catch (Exception e) {
 
-        });
-        serviceThread.setDaemon(true);
-        serviceThread.start();
+        }
+
     }
 }
 

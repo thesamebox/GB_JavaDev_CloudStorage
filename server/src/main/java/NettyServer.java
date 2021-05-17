@@ -9,7 +9,6 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
-import serialize.SerialHandler;
 
 @Slf4j
 public class NettyServer {

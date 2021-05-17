@@ -3,19 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="483.0" prefWidth="343.0"
-            xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ClientController">
-   <ListView fx:id="listView"
-             layoutX="14.0" layoutY="14.0"
-             prefHeight="422.0" prefWidth="314.0" />
-   <TextField fx:id="inputArea"
-              layoutX="14.0" layoutY="433.0"
-              prefHeight="38.0" prefWidth="240.0" />
-   <Button onAction="#send"
-           layoutX="252.0" layoutY="434.0"
-           mnemonicParsing="false"
-           prefHeight="38.0" prefWidth="76.0"
-           text="Send" />
+<AnchorPane prefHeight="484.0" prefWidth="495.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
+   <TextField fx:id="inputArea" layoutX="4.0" layoutY="430.0" prefHeight="46.0" prefWidth="486.0" />
+   <HBox layoutX="4.0" layoutY="4.0" prefHeight="424.0" prefWidth="486.0">
+      <children>
+         <ListView prefHeight="424.0" prefWidth="228.0" />
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="46.0" text="&lt;" />
+               <Button mnemonicParsing="false" onAction="#send" prefHeight="38.0" prefWidth="46.0" text="&gt;" />
+            </children>
+         </VBox>
+         <ListView prefHeight="424.0" prefWidth="205.0" />
+      </children></HBox>
 </AnchorPane>
