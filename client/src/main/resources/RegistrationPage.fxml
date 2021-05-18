@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegistrationPageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegistrationPageController">
     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="43.0" prefHeight="65.0" prefWidth="228.0" text="CloudStorage" textAlignment="CENTER">
         <font>
             <Font name="System Bold" size="24.0" />
