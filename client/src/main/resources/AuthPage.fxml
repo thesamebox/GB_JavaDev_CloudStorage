@@ -4,29 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="Background"
-            prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="AuthPageController">
+<AnchorPane fx:id="Background" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AuthPageController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="43.0" prefHeight="65.0" prefWidth="228.0" text="CloudStorage" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="warning"
-             layoutX="587.5" layoutY="70"
-             style="-fx-text-fill:black; -fx-font-size: 15; -fx-font-weight: bold"></Label>
+      <Label fx:id="warning" alignment="CENTER" layoutX="187.0" layoutY="183.0" prefHeight="21.0" prefWidth="427.0" style="-fx-text-fill:black; -fx-font-size: 15; -fx-font-weight: bold" />
       <Label layoutX="286.0" layoutY="234.0" prefHeight="17.0" prefWidth="228.0" text="Login" />
-      <TextField onAction="#Enter" fx:id="login"
-                 layoutX="286.0" layoutY="251.0" prefHeight="25.0" prefWidth="228.0" />
+      <TextField fx:id="login" layoutX="286.0" layoutY="251.0" onAction="#Enter" prefHeight="25.0" prefWidth="228.0" />
       <Label layoutX="286.0" layoutY="286.0" prefHeight="17.0" prefWidth="228.0" text="Password" />
-      <PasswordField onAction="#Enter"  fx:id="password"
-                     layoutX="286.0" layoutY="303.0" prefHeight="25.0" prefWidth="228.0" />
-      <Button onAction="#goToRegistrationPage" fx:id="goToRegistrationPageButton"
-              layoutX="389.0" layoutY="341.0" mnemonicParsing="false" text="Registration" />
-      <Button onAction="#Enter" fx:id="AuthButton"
-              layoutX="469.0" layoutY="341.0" mnemonicParsing="false" text="Go in" />
+      <PasswordField fx:id="password" layoutX="286.0" layoutY="303.0" onAction="#Enter" prefHeight="25.0" prefWidth="228.0" />
+      <Button fx:id="goToRegistrationPageButton" layoutX="389.0" layoutY="341.0" mnemonicParsing="false" onAction="#goToRegistrationPage" text="Registration" />
+      <Button fx:id="AuthButton" layoutX="469.0" layoutY="341.0" mnemonicParsing="false" onAction="#Enter" text="Login" />
    </children>
 </AnchorPane>

@@ -1,5 +1,3 @@
-import io.netty.handler.codec.serialization.ObjectDecoderInputStream;
-import io.netty.handler.codec.serialization.ObjectEncoderOutputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,56 +11,89 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
-import model.Message;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
-public class AuthPageController implements Initializable{
+public class AuthPageController implements Initializable {
     @FXML
-    public Button AuthButton;
+    private Button AuthButton;
     @FXML
-    public Button goToRegistrationPageButton;
+    private Button goToRegistrationPageButton;
     @FXML
-    public PasswordField password;
+    private PasswordField password;
     @FXML
-    public TextField login;
-    public static Label warning;
+    private TextField login;
+    @FXML
+    private Label warning;
+
     private NettyNetwork network;
-    private ObjectDecoderInputStream odis;
-    private ObjectEncoderOutputStream oeos;
+    private String serverMessage;
+
 
     @SneakyThrows
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            Socket socket = new Socket("localhost", 8189);
-            oeos = new ObjectEncoderOutputStream(socket.getOutputStream());
-            odis = new ObjectDecoderInputStream(socket.getInputStream());
-            Thread serviceThread = new Thread(() -> {
-                try {
-                    while (true) {
+        Thread regService = new Thread(() -> {
+            network = NettyNetwork.getInstance(
+                    request -> {
+                        if (request instanceof RequestResponse) {
+                            RequestResponse requestResponse = (RequestResponse) request;
+                            serverMessage = requestResponse.getServerMessage();
+                            if (serverMessage.equals(CommandList.WRONG_PASSWORD)) {
+                                Platform.runLater(() -> {
+                                    warning.setText("Wrong password");
+                                    login.clear();
+                                    password.clear();
+                                });
+                            }
+                            if (serverMessage.equals(CommandList.NO_REGISTERED_USER)) {
+                                Platform.runLater(() -> {
+                                    warning.setText(String.format("The user with login %s doesn't exist", login.getText()));
+                                    login.clear();
+                                    password.clear();
+                                });
+                            }
+                            if (serverMessage.equals(CommandList.AUTH_OK)) {
 
-                        Requests request = (Requests) odis.readObject();
+                                Platform.runLater(() -> {
+//                                    warning.setText(String.format("Welcome, %s", login.getText()));
+                                    login.clear();
+                                    password.clear();
+                                    try {
+                                        goToStorage();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+                            }
+                        }
                     }
-                } catch (Exception e) {
-
-                }
-            });
-            serviceThread.setDaemon(true);
-            serviceThread.start();
-        } catch (Exception e) {
-
-        }
+            );
+        });
+        regService.setDaemon(true);
+        regService.start();
     }
+
+    public void goToStorage() throws Exception {
+        Stage stage = (Stage) AuthButton.getScene().getWindow();
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("client.fxml")));
+        stage.setTitle("CloudStorage");
+        stage.setScene(new Scene(parent, 800, 600));
+        stage.setResizable(false);
+        stage.show();
+    }
+
     @FXML
     public void Enter(ActionEvent actionEvent) throws IOException {
         if (!login.getText().isEmpty() && !password.getText().isEmpty()) {
-            SerialHandlerWithCallBack.authRequest(login.getText(), password.getText());
+            network.write(new AuthRequest(login.getText(), password.getText()));
+            login.clear();
+            password.clear();
+        }else {
+            warning.setText("You have to fill in all the fields ");
             login.clear();
             password.clear();
         }

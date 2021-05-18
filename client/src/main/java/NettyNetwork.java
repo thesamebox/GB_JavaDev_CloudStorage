@@ -53,8 +53,6 @@ public class NettyNetwork {
                 group.shutdownGracefully();
             }
         }).start();
-
-
     }
 
     public void write(Requests request) {

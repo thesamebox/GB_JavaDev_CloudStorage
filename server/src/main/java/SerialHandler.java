@@ -27,6 +27,12 @@ public class SerialHandler extends SimpleChannelInboundHandler<Requests> {
     }
 
     @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        log.debug("client disconnected");
+    }
+
+
+    @Override
     public void channelRead0(ChannelHandlerContext chc, Requests request) throws Exception {
         if (request == null) {
             return;
@@ -37,13 +43,13 @@ public class SerialHandler extends SimpleChannelInboundHandler<Requests> {
             String pass = registrationRequest.getPassword();
             DBConnectionHandler dbch = new DBConnectionHandler();
             if (dbch.registeredLogin(login)) {
-                chc.writeAndFlush(CommandList.LOGIN_IS_TAKEN);
+                chc.writeAndFlush(new RequestResponse(CommandList.LOGIN_IS_TAKEN));
                 log.debug(String.format("The user with login %s registered already", login));
             } else {
                 dbch.registration(login, pass);
                 File newUserDirectory = new File("TestFiles\\ServerStorage\\" + login);
                 newUserDirectory.mkdir();
-                chc.writeAndFlush("Registration is successful");
+                chc.writeAndFlush(new RequestResponse(CommandList.REG_OK));
                 log.debug(String.format("The user %s finished the registration successfully", login));
             }
             dbch.closeDB();
@@ -56,14 +62,14 @@ public class SerialHandler extends SimpleChannelInboundHandler<Requests> {
             DBConnectionHandler dbch = new DBConnectionHandler();
             if (dbch.registeredLogin(login)) {
                 if (dbch.registeredPassword(pass)) {
-                    chc.writeAndFlush(String.format("User %s Accepted", login));
+                    chc.writeAndFlush(new RequestResponse(CommandList.AUTH_OK));
                     log.debug(String.format("User %s was authorized to the server", login));
                 } else {
-                    chc.writeAndFlush("Wrong password");
+                    chc.writeAndFlush(new RequestResponse(CommandList.WRONG_PASSWORD));
                     log.debug(String.format("Failure attempt to access the login %s with password", login));
                 }
             } else {
-                chc.writeAndFlush(String.format("A user with login %s has not been registered", login));
+                chc.writeAndFlush(new RequestResponse(CommandList.NO_REGISTERED_USER));
             }
             dbch.closeDB();
             return;

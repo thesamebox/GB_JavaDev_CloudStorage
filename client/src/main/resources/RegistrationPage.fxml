@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="RegistrationPageController"
-            prefHeight="600.0" prefWidth="800.0">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegistrationPageController">
     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="43.0" prefHeight="65.0" prefWidth="228.0" text="CloudStorage" textAlignment="CENTER">
         <font>
             <Font name="System Bold" size="24.0" />
         </font>
     </Label>
-    <Label fx:id="warning"
-           layoutX="286.5" layoutY="180.0"
-           style="-fx-text-fill:black; -fx-font-size: 15; -fx-font-weight: bold"></Label>
+    <Label fx:id="warning" alignment="CENTER" layoutX="163.0" layoutY="179.0" prefHeight="21.0" prefWidth="474.0" style="-fx-text-fill:black; -fx-font-size: 15; -fx-font-weight: bold" textAlignment="CENTER" />
     <Label layoutX="286.0" layoutY="234.0" prefHeight="17.0" prefWidth="228.0" text="Login" />
-    <TextField onAction="#makeRegistration" fx:id="login"
-               layoutX="286.0" layoutY="251.0" prefHeight="25.0" prefWidth="228.0" />
+    <TextField fx:id="login" layoutX="286.0" layoutY="251.0" onAction="#makeRegistration" prefHeight="25.0" prefWidth="228.0" />
     <Label layoutX="286.0" layoutY="286.0" prefHeight="17.0" prefWidth="228.0" text="Password" />
-    <PasswordField onAction="#makeRegistration"  fx:id="password"
-                   layoutX="286.0" layoutY="303.0" prefHeight="25.0" prefWidth="228.0" />
+    <PasswordField fx:id="password" layoutX="286.0" layoutY="303.0" onAction="#makeRegistration" prefHeight="25.0" prefWidth="228.0" />
     <Label layoutX="286.0" layoutY="338.0" prefHeight="17.0" prefWidth="228.0" text="Password" />
-    <PasswordField onAction="#makeRegistration"  fx:id="confirmPassword"
-                   layoutX="286.0" layoutY="355.0" prefHeight="25.0" prefWidth="228.0" />
-    <Button onAction="#makeRegistration" fx:id="makeRegistrationButton"
-            layoutX="362.0" layoutY="393.0" mnemonicParsing="false" text="Make Account" />
-    <Button onAction="#cancelRegistration" fx:id="cancelRegistrationButton"
-            layoutX="454.0" layoutY="393.0" mnemonicParsing="false" text="Go back" />
+    <PasswordField fx:id="confirmPassword" layoutX="286.0" layoutY="355.0" onAction="#makeRegistration" prefHeight="25.0" prefWidth="228.0" />
+    <Button fx:id="makeRegistrationButton" layoutX="370.0" layoutY="393.0" mnemonicParsing="false" onAction="#makeRegistration" text="Make Account" />
+    <Button fx:id="cancelRegistrationButton" layoutX="462.0" layoutY="393.0" mnemonicParsing="false" onAction="#cancelRegistration" text="Cancel" />
+   <Label layoutX="378.0" layoutY="91.0" prefHeight="17.0" prefWidth="152.0" text="Create your own storage" />
 
 </AnchorPane>

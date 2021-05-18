@@ -27,7 +27,7 @@ public class NettyServer {
                             socketChannel.pipeline().addLast(
                                     new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
                                     new ObjectEncoder(),
-                                    new SerialHandler()  //DO NOT place the command before Decoder and Encoder
+                                    new SerialHandler()
                             );
                         }
                     });
