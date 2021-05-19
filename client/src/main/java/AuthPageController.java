@@ -59,7 +59,7 @@ public class AuthPageController implements Initializable {
                             if (serverMessage.equals(CommandList.AUTH_OK)) {
 
                                 Platform.runLater(() -> {
-//                                    warning.setText(String.format("Welcome, %s", login.getText()));
+                                    warning.setText(String.format("Welcome, %s", login.getText()));
                                     login.clear();
                                     password.clear();
                                     try {
