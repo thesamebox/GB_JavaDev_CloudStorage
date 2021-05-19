@@ -10,14 +10,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 
-/**Сейчас сделано - сообщения в один клиент.
- * Общая рассылка - чтото складыыать в коллекцию.
- * На сервере завести коллекцию
- * Тут создавать экземляр класса сервер
- * в нем сделать метод "добавить контекст в рассылочный список
- * Таким образом можно будет итерироваться по всем контекстами и делать широкое вещание
- * */
-
 @Slf4j
 public class SerialHandler extends SimpleChannelInboundHandler<Requests> {
 
