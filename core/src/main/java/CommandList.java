@@ -6,4 +6,5 @@ public class CommandList {
     public static final String NO_REGISTERED_USER = "NoUsersLikeThat";
 
 
+    public static final String DELETED = "Delete_ok";
 }

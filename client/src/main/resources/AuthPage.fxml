@@ -4,19 +4,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="Background" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AuthPageController">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AuthPageController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="43.0" prefHeight="65.0" prefWidth="228.0" text="CloudStorage" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="58.0" layoutY="14.0" prefHeight="65.0" prefWidth="263.0" text="Frankenstein's shelter" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="warning" alignment="CENTER" layoutX="187.0" layoutY="183.0" prefHeight="21.0" prefWidth="427.0" style="-fx-text-fill:black; -fx-font-size: 15; -fx-font-weight: bold" />
-      <Label layoutX="286.0" layoutY="234.0" prefHeight="17.0" prefWidth="228.0" text="Login" />
-      <TextField fx:id="login" layoutX="286.0" layoutY="251.0" onAction="#Enter" prefHeight="25.0" prefWidth="228.0" />
-      <Label layoutX="286.0" layoutY="286.0" prefHeight="17.0" prefWidth="228.0" text="Password" />
-      <PasswordField fx:id="password" layoutX="286.0" layoutY="303.0" onAction="#Enter" prefHeight="25.0" prefWidth="228.0" />
-      <Button fx:id="goToRegistrationPageButton" layoutX="389.0" layoutY="341.0" mnemonicParsing="false" onAction="#goToRegistrationPage" text="Registration" />
-      <Button fx:id="AuthButton" layoutX="469.0" layoutY="341.0" mnemonicParsing="false" onAction="#Enter" text="Login" />
+
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="101.0" layoutY="71.0" prefHeight="18.0" prefWidth="242.0" text="The best place to keep your secrets " textAlignment="RIGHT" />
+      <Label fx:id="warning" alignment="CENTER" layoutX="14.0" layoutY="128.0" prefHeight="22.0" prefWidth="389.0" style="-fx-text-fill:black; -fx-font-size: 15; -fx-font-weight: bold" />
+      <Label layoutX="94.0" layoutY="150.0" prefHeight="17.0" prefWidth="228.0" text="Login" />
+      <TextField fx:id="loginField" layoutX="94.0" layoutY="170.0" onAction="#authorize" prefHeight="25.0" prefWidth="228.0" promptText="Enter your login" />
+      <Label layoutX="94.0" layoutY="203.0" prefHeight="17.0" prefWidth="228.0" text="Password" />
+      <PasswordField fx:id="passwordField" layoutX="94.0" layoutY="223.0" onAction="#authorize" prefHeight="25.0" prefWidth="228.0" promptText="Enter password" />
+      <Button fx:id="goToRegistrationPageButton" layoutX="94.0" layoutY="432.0" mnemonicParsing="false" onAction="#goToRegistrationPage" prefHeight="26.0" prefWidth="228.0" text="Registration" visible="true" />
+      <Button fx:id="authButton" layoutX="95.0" layoutY="282.0" mnemonicParsing="false" onAction="#authorize" prefHeight="22.0" prefWidth="228.0" text="Login" visible="true" />
+      <Label fx:id="confPassLabel" layoutX="94.0" layoutY="261.0" prefHeight="17.0" prefWidth="228.0" text="Confirm password" visible="false" />
+      <PasswordField fx:id="confirmPasswordField" layoutX="95.0" layoutY="282.0" onAction="#register" prefHeight="25.0" prefWidth="228.0" promptText="Confirm password" visible="false" />
+      <Button fx:id="makeRegistrationButton" layoutX="95.0" layoutY="327.0" mnemonicParsing="false" onAction="#register" prefHeight="26.0" prefWidth="228.0" text="Make Account" visible="false" />
+      <Button fx:id="cancelRegistrationButton" layoutX="271.0" layoutY="432.0" mnemonicParsing="false" onAction="#cancelRegistration" text="Cancel" visible="false" />
+
    </children>
 </AnchorPane>

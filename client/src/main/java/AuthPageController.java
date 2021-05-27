@@ -10,105 +10,162 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
+@Slf4j
 public class AuthPageController implements Initializable {
     @FXML
-    private Button AuthButton;
+    private Label warning;
+    @FXML
+    private TextField loginField;
+    @FXML
+    private PasswordField passwordField;
     @FXML
     private Button goToRegistrationPageButton;
     @FXML
-    private PasswordField password;
+    private Button authButton;
     @FXML
-    private TextField login;
+    private PasswordField confirmPasswordField;
     @FXML
-    private Label warning;
+    private Button makeRegistrationButton;
+    @FXML
+    private Button cancelRegistrationButton;
+    @FXML
+    private Label confPassLabel;
 
-    private NettyNetwork network;
-    private String serverMessage;
+    private String serverResponse;
+    private CurrentLogin currentLogin;
 
-
-    @SneakyThrows
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread regService = new Thread(() -> {
-            network = NettyNetwork.getInstance(
-                    request -> {
-                        if (request instanceof RequestResponse) {
-                            RequestResponse requestResponse = (RequestResponse) request;
-                            serverMessage = requestResponse.getServerMessage();
-                            if (serverMessage.equals(CommandList.WRONG_PASSWORD)) {
-                                Platform.runLater(() -> {
-                                    warning.setText("Wrong password");
-                                    login.clear();
-                                    password.clear();
-                                });
-                            }
-                            if (serverMessage.equals(CommandList.NO_REGISTERED_USER)) {
-                                Platform.runLater(() -> {
-                                    warning.setText(String.format("The user with login %s doesn't exist", login.getText()));
-                                    login.clear();
-                                    password.clear();
-                                });
-                            }
-                            if (serverMessage.equals(CommandList.AUTH_OK)) {
-
-                                Platform.runLater(() -> {
-                                    warning.setText(String.format("Welcome, %s", login.getText()));
-                                    login.clear();
-                                    password.clear();
-                                    try {
-                                        goToStorage();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                });
-                            }
-                        }
+        ConnectServer.setConnection();
+        Thread serverListener = new Thread(() -> {
+            while (ConnectServer.isActive()) {
+                Object request = null;
+                try {
+                    request = ConnectServer.getResponse();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (request instanceof RequestResponse) {
+                    RequestResponse requestResponse = (RequestResponse) request;
+                    serverResponse = requestResponse.getServerMessage();
+                    if (serverResponse.equals(CommandList.WRONG_PASSWORD)) {
+                        log.info(" !!!!! gottenmes is Wrngpass");
+                        Platform.runLater(() -> {
+                            warning.setText("Wrong password");
+                            loginField.clear();
+                            passwordField.clear();
+                        });
                     }
-            );
+                    if (serverResponse.equals(CommandList.NO_REGISTERED_USER)) {
+                        log.info(" !!!!! gottenmes is NoUser");
+                        Platform.runLater(() -> {
+                            warning.setText(String.format("The user with login %s doesn't exist", loginField.getText()));
+                            loginField.clear();
+                            passwordField.clear();
+                        });
+                    }
+                    if (serverResponse.equals(CommandList.LOGIN_IS_TAKEN)) {
+                        log.info(" !!!!! gottenmes is LoginIsTaken");
+                        Platform.runLater(() -> {
+                            warning.setText("The login is taken already");
+                            loginField.clear();
+                            passwordField.clear();
+                            confirmPasswordField.clear();
+                        });
+                    }
+                    if (serverResponse.equals(CommandList.AUTH_OK)) {
+                        log.info(" !!!!! gottenmes is AuthOk");
+                        Platform.runLater(() -> {
+                            warning.setText(String.format("Welcome, %s", loginField.getText()));
+                            CurrentLogin.setCurrentLogin(loginField.getText());
+                            System.out.println(CurrentLogin.getCurrentLogin());
+                            try {
+                                switchScenes(loginField.getText());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                    if (serverResponse.equals(CommandList.REG_OK)) {
+                        log.info(" !!!!! gottenmes is RegIsDone");
+                        Platform.runLater(() -> {
+                            warning.setText("Registration was successful");
+                            try {
+                                switchScenes(loginField.getText());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+                    }
+                }
+            }
         });
-        regService.setDaemon(true);
-        regService.start();
+        serverListener.setDaemon(true);
+        serverListener.start();
     }
-
-    public void goToStorage() throws Exception {
-        Stage stage = (Stage) AuthButton.getScene().getWindow();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("client.fxml")));
-        stage.setTitle("CloudStorage");
-        stage.setScene(new Scene(parent, 800, 600));
-        stage.setResizable(false);
-        stage.show();
-    }
-
     @FXML
-    public void Enter(ActionEvent actionEvent) throws IOException {
-        if (!login.getText().isEmpty() && !password.getText().isEmpty()) {
-            network.write(new AuthRequest(login.getText(), password.getText()));
-            login.clear();
-            password.clear();
-        }else {
+    public void goToRegistrationPage(ActionEvent actionEvent) {
+        goToRegistrationPageButton.setVisible(false);
+        authButton.setVisible(false);
+        confPassLabel.setVisible(true);
+        confirmPasswordField.setVisible(true);
+        makeRegistrationButton.setVisible(true);
+        cancelRegistrationButton.setVisible(true);
+        loginField.clear();
+        passwordField.clear();
+    }
+    @FXML
+    public void cancelRegistration(ActionEvent actionEvent) {
+        confPassLabel.setVisible(false);
+        confirmPasswordField.setVisible(false);
+        makeRegistrationButton.setVisible(false);
+        cancelRegistrationButton.setVisible(false);
+        goToRegistrationPageButton.setVisible(true);
+        authButton.setVisible(true);
+        loginField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+    }
+    @FXML
+    public void register(ActionEvent actionEvent) {
+        if (!loginField.getText().isEmpty() && !passwordField.getText().isEmpty() && !confirmPasswordField.getText().isEmpty()) {
+            if (passwordField.getText().equals(confirmPasswordField.getText())) {
+                ConnectServer.RegRequest(loginField.getText(), passwordField.getText());
+            } else {
+                warning.setText("Passwords does not match");
+                passwordField.clear();
+                confirmPasswordField.clear();
+            }
+        } else {
             warning.setText("You have to fill in all the fields ");
-            login.clear();
-            password.clear();
+            passwordField.clear();
+            confirmPasswordField.clear();
         }
     }
-
     @FXML
-    public void goToRegistrationPage(ActionEvent actionEvent) throws IOException {
-
-        Stage stage = (Stage) goToRegistrationPageButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("RegistrationPage.fxml")));
-        Scene scene = new Scene(root, 800, 600);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("CloudStorage: Create your account");
-        stage.show();
+    public void authorize(ActionEvent actionEvent) {
+        if (!loginField.getText().isEmpty() && !passwordField.getText().isEmpty()){
+            ConnectServer.AuthRequest(loginField.getText(),passwordField.getText());
+        }else {
+            warning.setText("You have to fill in all the fields ");
+        }
+        loginField.clear();
+        passwordField.clear();
     }
 
+    public void switchScenes(String login) throws IOException {
+        Stage stage = (Stage) authButton.getScene().getWindow();
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("client.fxml")));
+        stage.setScene(new Scene(parent, 800, 600));
+        stage.setResizable(false);
+        stage.setTitle(login + " in the Frankenstein's stash");
+        stage.show();
+    }
 }

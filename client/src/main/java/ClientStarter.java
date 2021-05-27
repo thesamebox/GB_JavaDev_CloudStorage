@@ -3,18 +3,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
-
-@Slf4j
-public class ClientStarter extends Application {
+public class ClientStarter  extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AuthPage.fxml")));
+        Parent parent = FXMLLoader.load(getClass().getResource("AuthPage.fxml"));
         primaryStage.setTitle("CloudStorage");
-        primaryStage.setScene(new Scene(parent, 800, 600));
+        primaryStage.setOnCloseRequest(event -> ConnectServer.disconnect());
+        primaryStage.setScene(new Scene(parent, 400, 500));
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

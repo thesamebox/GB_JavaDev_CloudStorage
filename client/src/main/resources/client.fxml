@@ -7,15 +7,21 @@
 <AnchorPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
    <children>
       <Label layoutX="6.0" layoutY="-4.0" prefHeight="52.0" prefWidth="368.0" text="CloudStorage: user">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
+
       </Label>
-      <ListView fx:id="localStorageList" layoutX="5.0" layoutY="41.0" prefHeight="520.0" prefWidth="350.0" />
-      <ListView fx:id="cloudStorageList" layoutX="444.0" layoutY="41.0" prefHeight="520.0" prefWidth="350.0" />
+      <ListView fx:id="localStorageList" layoutX="5.0" layoutY="41.0" prefHeight="491.0" prefWidth="377.0" />
+      <ListView fx:id="cloudStorageList" layoutX="420.0" layoutY="41.0" prefHeight="491.0" prefWidth="377.0" />
       <TextField layoutX="6.0" layoutY="566.0" prefHeight="30.0" prefWidth="788.0" />
-      <Button layoutX="375.0" layoutY="160.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="-&gt;" />
-      <Button layoutX="375.0" layoutY="214.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="&lt;-" />
-      <Button layoutX="374.0" layoutY="263.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+      <Button layoutX="386.0" layoutY="220.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="-&gt;" />
+      <Button layoutX="386.0" layoutY="274.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="&lt;-" />
+      <Button layoutX="385.0" layoutY="323.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Refresh" />
+      <Button layoutX="302.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="New folder" />
+      <Button fx:id="logout" onAction="#logout" layoutX="738.0" layoutY="7.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="59.0" text="LogOut" />
+      <Button layoutX="568.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+      <Button layoutX="504.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+      <Button layoutX="443.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+      <Button layoutX="164.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+      <Button layoutX="92.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+
    </children>
 </AnchorPane>
