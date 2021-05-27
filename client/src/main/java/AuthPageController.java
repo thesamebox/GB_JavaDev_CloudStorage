@@ -49,7 +49,7 @@ public class AuthPageController implements Initializable {
                 try {
                     request = ConnectServer.getResponse();
                 } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                    log.error("Exception - ", e);
                 }
                 if (request instanceof RequestResponse) {
                     RequestResponse requestResponse = (RequestResponse) request;
@@ -81,27 +81,27 @@ public class AuthPageController implements Initializable {
                     }
                     if (serverResponse.equals(CommandList.AUTH_OK)) {
                         log.info(" !!!!! gottenmes is AuthOk");
+                        CurrentLogin.setCurrentLogin(loginField.getText());
+                        System.out.println(CurrentLogin.getCurrentLogin());
                         Platform.runLater(() -> {
                             warning.setText(String.format("Welcome, %s", loginField.getText()));
-                            CurrentLogin.setCurrentLogin(loginField.getText());
-                            System.out.println(CurrentLogin.getCurrentLogin());
                             try {
                                 switchScenes(loginField.getText());
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                log.error("Exception - ", e);
                             }
                         });
                     }
                     if (serverResponse.equals(CommandList.REG_OK)) {
                         log.info(" !!!!! gottenmes is RegIsDone");
+                        CurrentLogin.setCurrentLogin(loginField.getText());
+                        System.out.println(CurrentLogin.getCurrentLogin());
                         Platform.runLater(() -> {
                             warning.setText("Registration was successful");
                             try {
                                 switchScenes(loginField.getText());
                             } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
+                                log.error("Exception - ", e);                            }
                         });
                     }
                 }
@@ -163,7 +163,7 @@ public class AuthPageController implements Initializable {
     public void switchScenes(String login) throws IOException {
         Stage stage = (Stage) authButton.getScene().getWindow();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("client.fxml")));
-        stage.setScene(new Scene(parent, 800, 600));
+        stage.setScene(new Scene(parent, 1000, 600));
         stage.setResizable(false);
         stage.setTitle(login + " in the Frankenstein's stash");
         stage.show();

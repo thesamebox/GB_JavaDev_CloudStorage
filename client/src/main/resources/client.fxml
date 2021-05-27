@@ -2,26 +2,19 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
+<AnchorPane prefHeight="600" prefWidth="1000" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
    <children>
-      <Label layoutX="6.0" layoutY="-4.0" prefHeight="52.0" prefWidth="368.0" text="CloudStorage: user">
-
-      </Label>
-      <ListView fx:id="localStorageList" layoutX="5.0" layoutY="41.0" prefHeight="491.0" prefWidth="377.0" />
-      <ListView fx:id="cloudStorageList" layoutX="420.0" layoutY="41.0" prefHeight="491.0" prefWidth="377.0" />
-      <TextField layoutX="6.0" layoutY="566.0" prefHeight="30.0" prefWidth="788.0" />
-      <Button layoutX="386.0" layoutY="220.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="-&gt;" />
-      <Button layoutX="386.0" layoutY="274.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="&lt;-" />
-      <Button layoutX="385.0" layoutY="323.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Refresh" />
-      <Button layoutX="302.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="New folder" />
-      <Button fx:id="logout" onAction="#logout" layoutX="738.0" layoutY="7.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="59.0" text="LogOut" />
-      <Button layoutX="568.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
-      <Button layoutX="504.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
-      <Button layoutX="443.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
-      <Button layoutX="164.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
-      <Button layoutX="92.0" layoutY="534.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Refresh" />
+      <ListView fx:id="localStorageList" onMouseClicked="#goToNextDirectoryInLocalStorageOnDoubleClickOrOpenFile" layoutX="5.0" layoutY="41.0"  prefHeight="519.0" prefWidth="472.0" />
+      <ListView fx:id="cloudStorageList" onMouseClicked="#goToNextDirectoryInCloudStorageOnDoubleClick" layoutX="521.0" layoutY="41.0"  prefHeight="519.0" prefWidth="472.0" />
+      <Button fx:id="uploadFilesButton" layoutX="479.0" layoutY="216.0" mnemonicParsing="false" onAction="#uploadRequest" prefHeight="30.0" prefWidth="41.0" text="-&gt;" />
+      <Button fx:id="downloadFilesButton" onAction="#downloadFiles" layoutX="479.0" layoutY="271.0" mnemonicParsing="false"  prefHeight="30.0" prefWidth="41.0" text="&lt;-" />
+      <Button fx:id="update" layoutX="479.0" layoutY="325.0" mnemonicParsing="false" onAction="#initLocalFilesList" prefHeight="30.0" prefWidth="41.0" text="upd" />
+      <Button fx:id="selectAllCloud" layoutX="521.0" layoutY="564.0" mnemonicParsing="false" onAction="#selectAllFilesFromCloudStorage" prefHeight="30.0" prefWidth="80.0" text="Select all" />
+      <Button fx:id="logout" onAction="#logout" layoutX="934.0" layoutY="7.0" mnemonicParsing="false"  prefHeight="30.0" prefWidth="59.0" text="LogOut" />
+      <Button fx:id="previousLocalFolderButton" onAction="#goToPreviousDirectoryInLocalStorage" layoutX="349.0" layoutY="564.0" mnemonicParsing="false"  prefHeight="30.0" prefWidth="50.0" text="Back" visible="false" />
+      <Button fx:id="selectAllLocal" onAction="#selectAllFilesFromLocalStorage" layoutX="399.0" layoutY="564.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Select all" />
+      <Button fx:id="previousCloudFolderButton" onAction="#goToPreviousDirectoryInCloudStorage" layoutX="601.0" layoutY="564.0" mnemonicParsing="false"  prefHeight="30.0" prefWidth="50.0" text="Back" visible="false" />
 
    </children>
 </AnchorPane>

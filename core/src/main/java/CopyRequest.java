@@ -22,7 +22,7 @@ public class CopyRequest extends Requests {
         this.isDirectory = isDirectory;
         this.isEmpty = isEmpty;
     }
-    public CopyRequest(Path path, String login) throws IOException {
+    public CopyRequest(String login, Path path) throws IOException {
         this.fileName = path.getFileName().toString();
         this.data = Files.readAllBytes(path);
         super.setLogin(login);
